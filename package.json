@@ -1,0 +1,20 @@
+{
+  "name": "crud-api",
+  "version": "1.0.0",
+  "description": "crude-api task",
+  "homepage": "https://github.com/iskonplus/CRUD-API#readme",
+  "bugs": {
+    "url": "https://github.com/iskonplus/CRUD-API/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iskonplus/CRUD-API.git"
+  },
+  "license": "ISC",
+  "author": "Artur Tamashevich",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
