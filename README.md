@@ -4,40 +4,36 @@
 
 This project implements a **CRUD API** using Node.js and an **in-memory database**.  
 
----
-This application can be run in different modes:
 ## Scripts
+This application can be run in different modes:
 
-1.Runs the app in development mode with hot reload (`nodemon`), PORT 4000.
+1. Runs the app in development mode with hot reload (`nodemon`), PORT 4000.
 
     ```bash
     npm run start:dev
     ```
-2.Build the project to generate JavaScript files in the `dist/` directory.
+2. Build the project to generate JavaScript files in the `dist/` directory.
 
     ```bash
     npm run build
     ```
 
-3.Runs the bundled.
+3. Runs the bundled.
 
     ```bash
     npm run start:prod
     ```
-
-4.Starts multiple instances using Node.js Cluster API (load balancing), PORTS 4001+
+4. Starts multiple instances using Node.js Cluster API (load balancing), PORTS 4000+
 
     ```bash
     npm npm run start:multi
     ```
-
-5.Runs tests.
+5. Runs tests.
 
     ```bash
     npm run test
-    ```
+   ```
 
----
 
 ## API Endpoints
 
@@ -72,8 +68,6 @@ This application can be run in different modes:
 }
 ```
 
----
-
 ## Status Codes
 
 * 200 - OK
@@ -83,7 +77,6 @@ This application can be run in different modes:
 * 404 - Not Found
 * 500 - Internal Server Error
 
----
 
 ##  Load Balancing Mode (`start:multi`)
 
@@ -99,7 +92,9 @@ Example for `PORT=4000` and 4 CPU cores:
 Requests are distributed using a **Round-robin algorithm**, and the in-memory database remains consistent across
 workers.
 
+
 ---
+
 
 ##  Local Setup
 
@@ -134,13 +129,8 @@ cp .env.example .env
 npm run start:dev
 ```
 
----
-
 
 ##  Summary
 
 Link for task [CRUD API](https://github.com/AlreadyBored/nodejs-assignments/blob/main/assignments/crud-api/assignment.md).
-
----
-
 **Author:** *[Artur Tamashevich](https://github.com/iskonplus)*
