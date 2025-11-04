@@ -25,6 +25,12 @@ export const userService = {
         const newUser = { id: getRandomId(), ...body };
         users.push(newUser);
         return newUser;
+    },
+    delete: async (id: string): Promise<boolean> => {
+        const idx = users.findIndex(u => u.id === id);
+        if (idx === -1) return false;
+        users.splice(idx, 1);
+        return true;
     }
 
 }

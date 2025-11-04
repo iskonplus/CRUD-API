@@ -10,6 +10,11 @@ export const isUuid = (id: string): Boolean => UUID_RE.test(id);
 
 
 export const send = (res: Res, status: number, payload: unknown) => {
+    if (status === 204) {
+        res.statusCode = status;
+        return res.end();
+    }
+
     res.writeHead(status, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(payload));
 };
