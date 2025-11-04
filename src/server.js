@@ -1,5 +1,6 @@
 import http from 'node:http';
 import { users } from './db.js';
+import { statusOk } from './controllers.js';
 
 const PORT = Number(process.env.PORT || 4000);
 
@@ -11,8 +12,7 @@ const server = http.createServer(async (req, res) => {
     try {
 
         if (req.method === 'GET' && url.pathname === '/api/users') {
-            res.writeHead(200, { "Content-Type": "application/json" });
-            return res.end(JSON.stringify(users));
+            return statusOk(res, users);
         }
 
 
