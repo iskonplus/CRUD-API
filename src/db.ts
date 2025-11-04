@@ -1,4 +1,6 @@
-export const users = [
+import { User } from './types/user';
+
+const users = [
     {
         id: 'a81bc81b-dead-4e5d-abff-90865d1e13b1',
         username: 'Artur',
@@ -12,3 +14,10 @@ export const users = [
         hobbies: ['the same']
     }
 ];
+
+export const getUsers = {
+
+    all: async (): Promise<User[]> => users,
+    byId: async (id: string): Promise<User | undefined> => users.find(user => user.id === id)
+
+}
