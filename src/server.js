@@ -1,6 +1,7 @@
 import http from 'node:http';
 import { users } from './db.js';
-import { statusOk } from './controllers.js';
+import { statusOk, badRequest, notFound } from './controllers.js';
+import { isUuid, getUser } from './utils.js';
 
 const PORT = Number(process.env.PORT || 4000);
 
@@ -13,6 +14,16 @@ const server = http.createServer(async (req, res) => {
 
         if (req.method === 'GET' && url.pathname === '/api/users') {
             return statusOk(res, users);
+        }
+
+        if (req.method === 'GET' && pathSegments[0] === 'api' && pathSegments[1] === 'users' && pathSegments.length === 3) {
+            const userId = pathSegments[2];
+
+            if (!isUuid(userId)) return badRequest(res, 'Invalid userId (not uuid)');
+            const user = getUser(userId);
+            if (!user) return notFound(res, 'User not found');
+
+            return statusOk(res, user);
         }
 
 
