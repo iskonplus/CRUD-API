@@ -1,11 +1,12 @@
 import 'dotenv/config';
 import http from 'node:http';
 import { handleMethod } from './app';
+import { Req, Res } from './types/http';
 
 const PORT = Number(process.env.PORT) || 4000;
 
-const server = http.createServer((req, res) => {
-  handleMethod(req as any, res as any);
+const server = http.createServer((req: Req, res: Res) => {
+  handleMethod(req, res);
 });
 
 server.listen(PORT, () => {

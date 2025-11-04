@@ -1,20 +1,38 @@
 import { Req, Res } from '../types/http';
-import { isUuid, send } from '../utils';
-import { getUsers } from '../db';
+import { isUuid, send, readJsonBody, validateUserBody } from '../utils';
+import { userService } from '../db';
+import { IncomingUser } from '../types/incomingUser';
+import { create } from 'node:domain';
 
 export const UsersController = {
     getAll: async (_req: Req, res: Res) => {
-        const data = await getUsers.all();
+        const data = await userService.getAll();
         send(res, 200, data);
     },
 
-    getOne: async (_req: Req, res: Res, id: string) => {
+    getUser: async (_req: Req, res: Res, id: string) => {
 
         if (!isUuid(id)) return send(res, 400, { message: 'Invalid userId (not UUID)' });
-        const user = await getUsers.byId(id);
+        const user = await userService.getById(id);
         if (!user) return send(res, 404, { message: 'User not found' });
 
         send(res, 200, user);
+    },
+    createUser: async (req: Req, res: Res) => {
+        let body;
+
+        try {
+            body = await readJsonBody<IncomingUser>(req);
+        } catch {
+            return send(res, 400, { message: 'Invalid JSON body' });
+        }
+
+        const isIncomingDataValid = validateUserBody(body);
+
+        if (!isIncomingDataValid) return send(res, 400, { message: 'Missing or invalid required fields' });
+
+        const newUser = await userService.create(body);
+        return send(res, 201, newUser);
     }
 
 };
