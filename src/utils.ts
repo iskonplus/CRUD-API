@@ -55,5 +55,5 @@ export const errorMsg = {
     },
     server: {
         internal: 'Internal Server Error',
-    },
+    }
 };

@@ -1,5 +1,6 @@
 import request from 'supertest';
 import { server } from '../src/server';
+import { errorMsg } from '../src/utils';
 
 afterAll((done) => {
     server.close(done);
@@ -25,7 +26,15 @@ describe('Users API', () => {
         expect(res.status).toBe(201);
         expect(res.body.id).toBeDefined();
         userId = res.body.id;
-        expect(res.body).toEqual({...incomingUser, id: userId});
+        expect(res.body).toEqual({ ...incomingUser, id: userId });
+    });
+
+    test('POST create user invalid -> 400, error message', async () => {
+        const res = await request(server).post('/api/users').send({ ...incomingUser, age: 'string' });
+        expect(res.status).toBe(400);
+        expect(res.body).toEqual({
+            message: errorMsg.invalid.required,
+        });
     });
 
 });
