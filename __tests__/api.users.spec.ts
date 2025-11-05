@@ -15,6 +15,7 @@ const incomingUser = {
 }
 let user: User;
 const fakeId = '9e8f0e5e-7a19-4a3a-9d76-56e5cc33c2ff';
+const updateData = { hobbies: ['reading', 'walking'] };
 
 describe('Users API', () => {
 
@@ -62,6 +63,13 @@ describe('Users API', () => {
         expect(res.body).toEqual({
             message: errorMsg.notFound.user,
         });
+    });
+
+    test('Update user by id -> 200, user', async () => {
+        const res = await request(server).put(`/api/users/${userId}`).send(updateData);
+        expect(res.status).toBe(200);
+        user = {...user, ...updateData}
+        expect(res.body).toEqual(user);
     });
 
 });

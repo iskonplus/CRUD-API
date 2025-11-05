@@ -15,9 +15,8 @@ export const userService = {
     },
     update: async (body: IncomingUser, id: string): Promise<User> => {
         const idx = users.findIndex(u => u.id === id);
-        const updatedUser = { ...users[idx], ...body }
-        users[idx] = updatedUser;
-        return updatedUser;
+        users[idx] = { ...users[idx], ...body }
+        return users[idx];
     },
     delete: async (id: string): Promise<boolean> => {
         const idx = users.findIndex(u => u.id === id);
