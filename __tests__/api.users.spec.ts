@@ -47,4 +47,12 @@ describe('Users API', () => {
         expect(res.body).toEqual(user);
     });
 
+    test('Get user by invalid id -> 400, error message', async () => {
+        const res = await request(server).get(`/api/users/${'invalid id'}`);
+        expect(res.status).toBe(400);
+        expect(res.body).toEqual({
+            message: errorMsg.invalid.uuid,
+        });
+    });
+
 });
