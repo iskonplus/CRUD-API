@@ -1,5 +1,6 @@
 import { Req, Res } from './types/http';
 import { usersRouter } from './routers/users.routers';
+import { errorMsg, send } from './utils';
 
 export const handleMethod = async (req: Req, res: Res) => {
 
@@ -7,13 +8,11 @@ export const handleMethod = async (req: Req, res: Res) => {
         const handled = await usersRouter(req, res);
 
         if (!handled) {
-            res.writeHead(404, { 'Content-Type': 'application/json' });
-            return res.end(JSON.stringify({ message: 'Not found' }));
+            return send(res, 404, { message: errorMsg.notFound.url });
         }
-
+        
     } catch {
-        res.writeHead(500, { 'Content-Type': 'application/json' });
-        return res.end(JSON.stringify({ message: 'Internal Server Error' }));
+        return send(res, 500, { message: errorMsg.server.internal });
     }
 
 };

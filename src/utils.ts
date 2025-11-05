@@ -42,3 +42,18 @@ export const validateUserBody = (body: IncomingUser) => {
         && (body.hobbies).every(hobby => typeof hobby === 'string');
 
 }
+
+export const errorMsg = {
+    invalid: {
+        uuid: 'Invalid userId (not UUID)',
+        json: 'Invalid JSON body',
+        required: 'Missing or invalid required fields',
+    },
+    notFound: {
+        user: 'User not found',
+        url: 'Not found'
+    },
+    server: {
+        internal: 'Internal Server Error',
+    },
+};
