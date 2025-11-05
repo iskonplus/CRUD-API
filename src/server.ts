@@ -5,7 +5,7 @@ import { Req, Res } from './types/http';
 
 const PORT = Number(process.env.PORT) || 4000;
 
-const server = http.createServer((req: Req, res: Res) => {
+export const server = http.createServer((req: Req, res: Res) => {
   handleMethod(req, res);
 });
 
