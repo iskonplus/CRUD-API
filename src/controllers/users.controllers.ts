@@ -6,7 +6,7 @@ import { IncomingUser } from '../types/incomingUser';
 export const UsersController = {
     getAll: async (_req: Req, res: Res) => {
         const data = await userService.getAll();
-        send(res, 200, data);
+        return send(res, 200, data);
     },
 
     getUser: async (_req: Req, res: Res, id: string) => {
@@ -14,7 +14,7 @@ export const UsersController = {
         const user = await userService.getById(id);
         if (!user) return send(res, 404, { message: 'User not found' });
 
-        send(res, 200, user);
+        return send(res, 200, user);
     },
     createUser: async (req: Req, res: Res) => {
         let body;
@@ -30,6 +30,15 @@ export const UsersController = {
 
         const newUser = await userService.create(body);
         return send(res, 201, newUser);
+    },
+    updateUser: async (req: Req, res: Res, id: string) => {
+        if (!isUuid(id)) return send(res, 400, { message: 'Invalid userId (not UUID)' });
+        const user = await userService.getById(id);
+        if (!user) return send(res, 404, { message: 'User not found' });
+
+        const body = await readJsonBody<IncomingUser>(req);
+        const updatedUser = await userService.update(body, id);
+        return send(res, 200, updatedUser);
     },
     deleteUser: async (_req: Req, res: Res, id: string) => {
         if (!isUuid(id)) return send(res, 400, { message: 'Invalid userId (not UUID)' });

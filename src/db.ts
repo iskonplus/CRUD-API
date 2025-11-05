@@ -26,6 +26,12 @@ export const userService = {
         users.push(newUser);
         return newUser;
     },
+    update: async (body: IncomingUser, id: string): Promise<User> => {
+        const idx = users.findIndex(u => u.id === id);
+        const updatedUser = { ...users[idx], ...body }
+        users[idx] = updatedUser;
+        return updatedUser;
+    },
     delete: async (id: string): Promise<boolean> => {
         const idx = users.findIndex(u => u.id === id);
         if (idx === -1) return false;
