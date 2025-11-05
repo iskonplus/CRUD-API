@@ -14,6 +14,7 @@ const incomingUser = {
     hobbies: ['reading']
 }
 let user: User;
+const fakeId = '9e8f0e5e-7a19-4a3a-9d76-56e5cc33c2ff';
 
 describe('Users API', () => {
 
@@ -52,6 +53,14 @@ describe('Users API', () => {
         expect(res.status).toBe(400);
         expect(res.body).toEqual({
             message: errorMsg.invalid.uuid,
+        });
+    });
+
+    test('Get user by non-existent id -> 404, error message', async () => {
+        const res = await request(server).get(`/api/users/${fakeId}`);
+        expect(res.status).toBe(404);
+        expect(res.body).toEqual({
+            message: errorMsg.notFound.user,
         });
     });
 
