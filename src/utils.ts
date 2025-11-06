@@ -36,7 +36,7 @@ export const readJsonBody = <T = unknown>(req: IncomingMessage): Promise<T> =>
         req.on('error', reject);
     });
 
-export const validateUserBody = (body: IncomingUser) => {
+export const validateIncomingUserData = (body: IncomingUser) => {
     return typeof body.username === 'string'
         && typeof body.age === 'number'
         && Array.isArray(body.hobbies)
