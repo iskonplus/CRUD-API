@@ -7,16 +7,17 @@ afterAll((done) => {
     server.close(done);
 });
 
-let userId: string;
 const incomingUser = {
     username: 'Artur',
     age: 38,
     hobbies: ['reading']
 }
-let user: User;
+
+let userId: string;
 const updateData = { hobbies: ['reading', 'walking'] };
+const incorrectUserData = { age: 'string' };
 const nonExistent = '9e8f0e5e-7a19-4a3a-9d76-56e5cc33c2ff';
-const notUUId = 'not uuid';
+const notUUID = 'not uuid';
 
 describe('Users API', () => {
 
@@ -31,12 +32,11 @@ describe('Users API', () => {
         expect(res.status).toBe(201);
         expect(res.body.id).toBeDefined();
         userId = res.body.id;
-        user = { id: userId, ...incomingUser };
-        expect(res.body).toEqual(user);
+        expect(res.body).toEqual({ id: userId, ...incomingUser });
     });
 
     test('POST create user invalid -> 400, error message', async () => {
-        const res = await request(server).post('/api/users').send({ ...incomingUser, age: 'string' });
+        const res = await request(server).post('/api/users').send({ ...incomingUser, ...incorrectUserData });
         expect(res.status).toBe(400);
         expect(res.body).toEqual({
             message: errorMsg.invalid.required,
@@ -47,11 +47,11 @@ describe('Users API', () => {
         const res = await request(server).get(`/api/users/${userId}`);
         expect(res.status).toBe(200);
         expect(res.body.id).toBe(userId);
-        expect(res.body).toEqual(user);
+        expect(res.body).toEqual({ id: userId, ...incomingUser });
     });
 
     test('Get user by invalid id -> 400, error message', async () => {
-        const res = await request(server).get(`/api/users/${notUUId}`);
+        const res = await request(server).get(`/api/users/${notUUID}`);
         expect(res.status).toBe(400);
         expect(res.body).toEqual({
             message: errorMsg.invalid.uuid,
@@ -69,12 +69,11 @@ describe('Users API', () => {
     test('Update user by id -> 200, updated user', async () => {
         const res = await request(server).put(`/api/users/${userId}`).send(updateData);
         expect(res.status).toBe(200);
-        user = { ...user, ...updateData }
-        expect(res.body).toEqual(user);
+        expect(res.body).toEqual({ id: userId, ...incomingUser, ...updateData });
     });
 
     test('Update user by invalid id -> 400, error message', async () => {
-        const res = await request(server).put(`/api/users/${notUUId}`);
+        const res = await request(server).put(`/api/users/${notUUID}`);
         expect(res.status).toBe(400);
         expect(res.body).toEqual({
             message: errorMsg.invalid.uuid,
@@ -88,7 +87,7 @@ describe('Users API', () => {
     });
 
     test('Delete user by invalid id -> 400, error message', async () => {
-        const res = await request(server).delete(`/api/users/${notUUId}`);
+        const res = await request(server).delete(`/api/users/${notUUID}`);
         expect(res.status).toBe(400);
         expect(res.body).toEqual({
             message: errorMsg.invalid.uuid,
@@ -98,9 +97,13 @@ describe('Users API', () => {
     test('Delete user by id -> 204', async () => {
         const res = await request(server).delete(`/api/users/${userId}`);
         expect(res.status).toBe(204);
-        console.log(res.body);
+        expect(res.text).toBe('');
     });
 
-
+    test('Delete user by non-existent id -> 404, error message', async () => {
+        const res = await request(server).delete(`/api/users/${userId}`);
+        expect(res.status).toBe(404);
+        expect(res.body).toEqual({ message: errorMsg.notFound.user });
+    });
 
 });
