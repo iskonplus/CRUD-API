@@ -81,4 +81,10 @@ describe('Users API', () => {
         });
     });
 
+        test('Update user by non-existent id -> 404, error message', async () => {
+        const res = await request(server).put(`/api/users/${nonExistent}`)
+        expect(res.status).toBe(404);
+        expect(res.body).toEqual({message: errorMsg.notFound.user});
+    });
+
 });
