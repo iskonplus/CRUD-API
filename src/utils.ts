@@ -44,7 +44,6 @@ export const validateIncomingUserData = (body: IncomingUser) => {
 
 }
 
-
 export const errorMsg = {
     invalid: {
         uuid: 'Invalid userId (not UUID)',
@@ -53,7 +52,7 @@ export const errorMsg = {
     },
     notFound: {
         user: 'User not found',
-        url: 'Not found'
+        url: 'Url not found'
     },
     server: {
         internal: 'Internal Server Error',
