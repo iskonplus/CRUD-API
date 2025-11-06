@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { server } from '../src/server';
 import { errorMsg } from '../src/utils';
-import { User } from '../src/types/user';
+
 
 afterAll((done) => {
     server.close(done);
@@ -110,6 +110,15 @@ describe('Users API', () => {
         const res = await request(server).get('/api/unknown-path');
         expect(res.status).toBe(404);
         expect(res.body).toEqual({ message: errorMsg.notFound.url });
+    });
+
+    test('POST invalid JSON -> 400, error message', async () => {
+        const res = await request(server)
+            .post('/api/users')
+            .set('Content-Type', 'application/json')
+            .send('{"username": "A"');
+        expect(res.status).toBe(400);
+        expect(res.body).toEqual({ message: errorMsg.invalid.json });
     });
 
 });
