@@ -14,8 +14,9 @@ const incomingUser = {
     hobbies: ['reading']
 }
 let user: User;
-const fakeId = '9e8f0e5e-7a19-4a3a-9d76-56e5cc33c2ff';
 const updateData = { hobbies: ['reading', 'walking'] };
+const nonExistent = '9e8f0e5e-7a19-4a3a-9d76-56e5cc33c2ff';
+const notUUId = 'not uuid';
 
 describe('Users API', () => {
 
@@ -50,7 +51,7 @@ describe('Users API', () => {
     });
 
     test('Get user by invalid id -> 400, error message', async () => {
-        const res = await request(server).get(`/api/users/${'invalid id'}`);
+        const res = await request(server).get(`/api/users/${notUUId}`);
         expect(res.status).toBe(400);
         expect(res.body).toEqual({
             message: errorMsg.invalid.uuid,
@@ -58,18 +59,26 @@ describe('Users API', () => {
     });
 
     test('Get user by non-existent id -> 404, error message', async () => {
-        const res = await request(server).get(`/api/users/${fakeId}`);
+        const res = await request(server).get(`/api/users/${nonExistent}`);
         expect(res.status).toBe(404);
         expect(res.body).toEqual({
             message: errorMsg.notFound.user,
         });
     });
 
-    test('Update user by id -> 200, user', async () => {
+    test('Update user by id -> 200, updated user', async () => {
         const res = await request(server).put(`/api/users/${userId}`).send(updateData);
         expect(res.status).toBe(200);
-        user = {...user, ...updateData}
+        user = { ...user, ...updateData }
         expect(res.body).toEqual(user);
+    });
+
+    test('Update user by invalid id -> 400, error message', async () => {
+        const res = await request(server).put(`/api/users/${notUUId}`);
+        expect(res.status).toBe(400);
+        expect(res.body).toEqual({
+            message: errorMsg.invalid.uuid,
+        });
     });
 
 });
