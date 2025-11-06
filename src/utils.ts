@@ -44,6 +44,7 @@ export const validateUserBody = (body: IncomingUser) => {
 
 }
 
+
 export const errorMsg = {
     invalid: {
         uuid: 'Invalid userId (not UUID)',

@@ -4,6 +4,7 @@ import { getRandomId } from './utils';
 
 const users: User[] = [];
 
+
 export const userService = {
 
     getAll: async (): Promise<User[]> => users,
@@ -13,9 +14,9 @@ export const userService = {
         users.push(newUser);
         return newUser;
     },
-    update: async (body: IncomingUser, id: string): Promise<User> => {
-        const idx = users.findIndex(u => u.id === id);
-        users[idx] = { ...users[idx], ...body }
+    update: async (user: User, id: string): Promise<User> => {
+        const idx = users.findIndex(user => user.id === id);
+        users[idx] = user;
         return users[idx];
     },
     delete: async (id: string): Promise<boolean> => {

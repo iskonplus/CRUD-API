@@ -1,5 +1,5 @@
 import { Req, Res } from '../types/http';
-import { isUuid, send, readJsonBody, validateUserBody, errorMsg } from '../utils';
+import { isUuid, send, readJsonBody, validateUserBody, errorMsg, } from '../utils';
 import { userService } from '../db';
 import { IncomingUser } from '../types/incomingUser';
 
@@ -36,8 +36,20 @@ export const UsersController = {
         const user = await userService.getById(id);
         if (!user) return send(res, 404, { message: errorMsg.notFound.user });
 
-        const body = await readJsonBody<IncomingUser>(req);
-        const updatedUser = await userService.update(body, id);
+        let body
+        
+        try {
+            body = await readJsonBody<IncomingUser>(req);
+        } catch {
+            return send(res, 400, { message: errorMsg.invalid.json });
+        }
+
+        const updatedUserData = { ...user, ...body };
+        const isIncomingDataValid = validateUserBody(updatedUserData);
+        if (!isIncomingDataValid) return send(res, 400, { message: errorMsg.invalid.required });
+
+
+        const updatedUser = await userService.update(updatedUserData, id);
         return send(res, 200, updatedUser);
     },
     deleteUser: async (_req: Req, res: Res, id: string) => {
