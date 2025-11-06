@@ -87,10 +87,20 @@ describe('Users API', () => {
         expect(res.body).toEqual({ message: errorMsg.notFound.user });
     });
 
+    test('Delete user by invalid id -> 400, error message', async () => {
+        const res = await request(server).delete(`/api/users/${notUUId}`);
+        expect(res.status).toBe(400);
+        expect(res.body).toEqual({
+            message: errorMsg.invalid.uuid,
+        });
+    });
+
     test('Delete user by id -> 204', async () => {
         const res = await request(server).delete(`/api/users/${userId}`);
         expect(res.status).toBe(204);
-       console.log(res.body);
+        console.log(res.body);
     });
+
+
 
 });
