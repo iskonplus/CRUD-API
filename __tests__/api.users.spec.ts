@@ -106,4 +106,10 @@ describe('Users API', () => {
         expect(res.body).toEqual({ message: errorMsg.notFound.user });
     });
 
+    test('Unknown route -> 404, message', async () => {
+        const res = await request(server).get('/api/unknown-path');
+        expect(res.status).toBe(404);
+        expect(res.body).toEqual({ message: errorMsg.notFound.url });
+    });
+
 });
