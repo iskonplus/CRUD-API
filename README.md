@@ -12,23 +12,14 @@ This application can be run in different modes:
     ```bash
     npm run start:dev
     ```
-2. Build the project to generate JavaScript files in the `dist/` directory.
-
-    ```bash
-    npm run build
-    ```
-
-3. Runs the bundled.
 
     ```bash
     npm run start:prod
     ```
-4. Starts multiple instances using Node.js Cluster API (load balancing), PORTS 4000+
 
     ```bash
     npm npm run start:multi
     ```
-5. Runs tests.
 
     ```bash
     npm run test
