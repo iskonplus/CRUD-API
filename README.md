@@ -13,17 +13,13 @@ This application can be run in different modes:
     npm run start:dev
     ```
 
-2. Runs the bundled.
-
     ```bash
     npm run start:prod
     ```
-3. Starts multiple instances using Node.js Cluster API (load balancing), PORTS 4000+
 
     ```bash
     npm npm run start:multi
     ```
-4. Runs tests.
 
     ```bash
     npm run test
